@@ -57,3 +57,5 @@ Target: Minecraft 26.3 (Java Edition), Fabric.
 - JSON config with atomic saves, 10 rolling backups and corrupt-file handling.
 - HUD framework and the first modules: **Zoom** (vanilla FOV option based, replaced in 0.2.1), **FPS**, **Coordinates**, **CPS**, **Toggle Sprint**.
 - Basic Right Shift menu with module on/off buttons.
+
+
