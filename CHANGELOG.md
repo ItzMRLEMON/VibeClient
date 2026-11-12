@@ -3,6 +3,32 @@
 All notable changes to Vibe. Versions follow the order the builds were produced.
 Target: Minecraft 26.3 (Java Edition), Fabric.
 
+## 0.4.1 - Crash fix: menus on narrow screens
+### Fixed
+- **Crash** `IllegalArgumentException: Scissor size must be >0, was 0x40` when opening a Vibe menu. The renderer crashes if a button lies completely outside the window, and several pages used fixed pixel layouts: the HUD editor's row of 15 element buttons was about 1440 px wide, and the other pages assumed a window of at least ~500 GUI pixels.
+- Home, Modules, HUD Editor and Keybinds now lay out from the real screen size: buttons wrap into extra rows (`Grid`), the Keybinds columns shrink, and the Modules page shows the list and settings one at a time on narrow screens.
+- All Vibe screens add widgets through `NavScreen.put()`, which refuses any widget that would be completely off-screen, as a safety net.
+### Changed
+- HUD editor element toggles are now coloured labels (green = on, red = off) instead of "Name: ON/OFF" text so more fit per row.
+
+## 0.4.0 - Phase 4: chat and world info
+### Added
+- **Chat Timestamps** and **Chat Filter** modules (`ChatMixin` on `ChatComponent.addMessage`, which every chat line passes through).
+- **Zoom scroll**: scroll the mouse wheel while zooming to change the zoom level (`MouseMixin` on `MouseHandler.onScroll`).
+- **Block Info**, **Entity Info** (name, health, distance) and **Death Coordinates** HUD modules.
+### Notes
+- In 26.3 the HUD moved out of `Gui` into a separate `Hud` class, so HUD-related mixins (crosshair, overlays) need a dump of `Hud` first.
+
+## 0.3.0 - Phase 3: HUD, camera and chat modules
+### Added
+- **HUD modules**: Ping, Direction, Compass, Hunger (food + saturation), Item Durability, Armor Status, Potion Effects, Stopwatch, Timer.
+- **Dynamic FOV** (controls vanilla FOV effects, restored on disable), **Toggle Perspective** (bindable key), **Auto GG** (new Chat category).
+- Stopwatch and Timer have their own bindable start/stop (start/pause) and reset keys on the Keybinds page.
+- Multi-line HUD elements: `HudModule.lines()` (single-line modules still just override `line()`); the HUD editor measures and drags multi-line elements.
+- Text settings (`Setting.Text`) with an edit box in the Modules page settings panel.
+### Changed
+- `HudModule.line()` is no longer abstract; `previewText`/`box`/`draw` now work on lists of lines.
+
 ## 0.2.3 - Pause-menu button and keybind fix
 ### Added
 - **Vibe button** on the Game Menu (pause screen), top-right corner, opens the Vibe Home page (`PauseScreenMixin`).
@@ -57,5 +83,3 @@ Target: Minecraft 26.3 (Java Edition), Fabric.
 - JSON config with atomic saves, 10 rolling backups and corrupt-file handling.
 - HUD framework and the first modules: **Zoom** (vanilla FOV option based, replaced in 0.2.1), **FPS**, **Coordinates**, **CPS**, **Toggle Sprint**.
 - Basic Right Shift menu with module on/off buttons.
-
-
